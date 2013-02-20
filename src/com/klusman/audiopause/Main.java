@@ -24,13 +24,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 
 
 
 public class Main extends ListActivity {
 	
-	//private List<String> songs = new ArrayList<String>();
+	private List<String> songs = new ArrayList<String>();
+	private List<File> song2 = new ArrayList<File>();
 	private MediaPlayer mp = new MediaPlayer();
+	private String musicArray[];
+	Object mySongs[];
 	//List<File> files = new ArrayList<File>();
 
     File path = Environment.getExternalStoragePublicDirectory( Environment.DIRECTORY_MUSIC);  //works
@@ -40,8 +44,7 @@ public class Main extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
-       // Log.i("blah", pathString);
+       
         updatePlayList();
         
         Button BUTTON = (Button)findViewById(R.id.stopBtn);
@@ -66,135 +69,33 @@ public class Main extends ListActivity {
 //    	//File[] music = new File(pathString).listFiles();
 //    	Collection<? extends File> mp3s = findAllMp3s(music);
 	Collection<File> files = FileUtils.listFiles(path,TrueFileFilter.INSTANCE,TrueFileFilter.INSTANCE);
-//    	
-//    	Log.i("count",  String.valueOf( mp3s.size()) );
-//
     	if(files != null){
+
+    		mySongs = files.toArray();
     		
     		Iterator<File> itr = files.iterator(); 
     		while(itr.hasNext()) {
 
-    		    //Object element = itr.next(); 
-    		    //System.out.print(element + " ");
-    		    Log.i("SONG ITR", itr.next().getName());
+    			String name = itr.next().getName();
+    			songs.add(name);
+    		    Log.i("SONG", name);
+    		    
 
     		} 
     		
-//    		for(int i = 0; i <= files.size(); i++)
-//    		{
-//    			files.iterator();
-//    			Log.i("SONG", files[i].toString());
-//    		}
-//    		//Object[] AF = files.toArray();
-//    		//String s = String.valueOf( music[0].listFiles( new Mp3Filter() ).length);
-//    		//Log.i("update Music", s);
-//    		
-////    		if(files.listFiles( new Mp3Filter() ).length >0 ){
-////    			Log.i("update Music", "if - hit");
-////    			
-////    			for (File file : music.listFiles(new Mp3Filter())){
-////    				Log.i("update Music", "for - hit");
-////    				songs.add(file.getName());
-////    			}
-////    			ArrayAdapter<String> songList = new ArrayAdapter<String>(this, R.layout.activity_main, songs);
-////    			setListAdapter(songList);
-////    		
-////    			int aSize = songs.size();
-////    			Log.i("Array Size", String.valueOf(aSize));*/
-//    		
-////    		}
-////    		for(int i = 0; i <= files.size(); i++){
-////    			String songName = files[i];
-////    		}
-//    		
-    		Log.i("FILES", "FILES NOT EMPTY");
-    		Log.i("SIZE", String.valueOf(files.size()));
-//
+
+   			ArrayAdapter<String> songList = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, songs);
+   			setListAdapter(songList);
+
+
+    		
+    		Log.i("# of Songs", String.valueOf(files.size()));
+
     	}else{
-    		Log.i("FILES", "EMPTY");
+    		Log.i("Songs", "No Songs Found");
     	}
-//    	
-//    	
-//    	
+   	
    }
     
     
-    
-//    private Collection <? extends File> findAllMp3s(File[] music) {
-//
-//    	Log.i("MUSIC LENGTH", String.valueOf(music.length));
-//    	
-//    	for(int i = 0; i <= music.length; i++){
-//    		File thing = music[i];
-//    		
-//    		if(thing.isDirectory())
-//    		{
-//    			File[] foo = thing.listFiles();
-//    			int dirL = foo.length;
-//    			Log.i("DIRECTORY LENGTH", String.valueOf(dirL));
-//    			digIntoFile(foo);
-//    			
-//    			
-//    		}else{
-//    			addFiletoList(thing);
-//    		}
-//    		
-//
-//			
-//		}
-//		return files;
-//	}
-
-    
-//    private void addFiletoList(File file){
-//    	files.add(file);
-//    	Log.i("ADD FILE", file.toString());
-//    }
-//    
-//    private void digIntoFile(File[] file){
-//    	Log.i("SUBFILE LENGTH", String.valueOf(file.length));
-//    	for(int i = 0; i <= file.length; i++){
-//    		File subThing = file[i];
-//    		
-//    		if(subThing.isDirectory()){
-//    			File[] moreFiles = subThing.listFiles();
-//    			digIntoFile(moreFiles);
-//    			Log.i("SUBFILE", "Subthing was a Directory Again!");
-//    		}else{
-//    			addFiletoList(subThing);
-//    		}
-//    		
-//    	}
-//    }
-    
-//    private Collection <? extends File> subFile(File[] folder){
-//    	//List<File> files = new ArrayList<File>();
-//    	Log.i("SUBFILE LENGTH", String.valueOf(folder.length));
-//    	for(int i = 0; i <= folder.length; i++){
-//    		File subThing = folder[i];
-//    		if(subThing.isDirectory()){
-//    			subFile(subThing);
-//    		}else{
-//    			addFiletoList(subThing);
-//    		}
-//    		
-//    	}
-//    	
-//    	
-//    	return files;
-//    	
-//    }
-    
-    
-//	public String pullmusicPath(){
-//    	return Environment.getExternalStorageDirectory().toString() + "/Music";
-//    	
-//    }
-    
-}
-
-class Mp3Filter implements FilenameFilter{
-	public boolean accept(File dir, String name){
-		return (name.endsWith(".mp3"));
-	}
 }
